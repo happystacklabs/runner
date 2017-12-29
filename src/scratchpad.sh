@@ -42,11 +42,19 @@ array+=(20)
 array+=(90)
 array+=(12)
 
+content=()
+content+=('A')
+content+=('B')
+content+=('C')
+content+=('D')
+content+=('E')
+content+=('F')
+
 printf "$( templateHeader 'Deploy script' )"
-printf "$( bash "${row}" top --columns="${array[*]}" )"
-printf "$( bash ${BINPATH}/lib/table/row.sh separator --columns="${array[*]}" --up )"
-printf "$( bash ${BINPATH}/lib/table/row.sh middle )"
-printf "$( bash ${BINPATH}/lib/table/row.sh bottom )"
+printf "$( bash "${row}" top )"
+printf "$( bash ${BINPATH}/lib/table/row.sh separator --columns="${array[*]}" --down )"
+printf "$( bash ${BINPATH}/lib/table/row.sh middle --columns="${array[*]}" --content="${content[*]}" )"
+printf "$( bash ${BINPATH}/lib/table/row.sh bottom --columns="${array[*]}" )"
 # printf "$( panelRow --middle --content="dude" )"
 # printf "$( panelRow --top --sections="${contentArray}" )"
 # printf "$( panelRow --middle --sections="${contentArray}" )"

@@ -66,7 +66,10 @@ concateRow() {
 #
 # @options:
 #   --column={array}
+#   --content={array}
 #   --up
+#   --down
+#   --cross
 #
 # @examples:
 #   row top
@@ -130,7 +133,7 @@ row() {
         separator="${CROSSINGSEPARATOR}"
         shift
         ;;
-      -c=*|--columns=*)
+      --columns=*)
         # pull array from args
         IFS=', ' read -r -a columns <<< "${option#*=}"
         unset IFS
@@ -139,6 +142,12 @@ row() {
         # shellcheck disable=SC2128
         # shellcheck disable=SC2206
         columns=($columns)
+        shift
+        ;;
+      --content=*)
+        # pull array from args
+        IFS=', ' read -r -a content <<< "${option#*=}"
+        unset IFS
         shift
         ;;
       *)
@@ -153,20 +162,31 @@ row() {
   # filling the rest of the width between the two edge of the panel.
   local i=0
   local cursor=0
+  local contentCursor=0
   while [  $i -lt $(( WIDTH - 2 )) ]; do
     # if the columns option is passed we will place the separators
     if [[ ${#columns} != 0 && $i = "${columns[$cursor]}" ]]; then
       # place the separator
       fill+="${separator}"
-      #now increment the cursor to the next column
+      # increment the cursor to the next column
       if [[ $cursor -lt "(( ${#columns[@]} - 1 ))" ]]; then
         ((cursor+=1))
       fi
     else
       # choose between filling with XLINES or empty spaces
-      [[ $rowType = 'middle' ]] && fillContent=' ' || fillContent="${XLINE}"
-      # place the symbol
-      fill+="${fillContent}"
+      if [[ ${#content} != 0 && $i = "$contentCursor" ]]; then
+        [[ $rowType = 'middle' ]] && fillContent="${content[$cursor]}" || fillContent="${XLINE}"
+        # place the symbol
+        fill+="${fillContent}"
+
+        # update contentCursor
+        contentCursor=$(( ${columns[$cursor]} + 1 ))
+      else
+        [[ $rowType = 'middle' ]] && fillContent=' ' || fillContent="${XLINE}"
+        # place the symbol
+        fill+="${fillContent}"
+      fi
+
     fi
 
     ((i+=1))
