@@ -14,7 +14,7 @@ templateHeader() {
   # colors
   readonly DEFAULTCOLOR='\e[39m'
   readonly PURPLE='\e[38;5;105m'
-  
+
   # default value
   local subtitle='A Bash script'
 

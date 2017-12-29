@@ -25,16 +25,15 @@ readonly BINPATH="$(dirname "$0")"
 ##
 # Imports.
 ##
+readonly row="${BINPATH}/lib/table/row.sh"
 # shellcheck source=./lib/templates.sh
 source "${BINPATH}/lib/templates.sh"
 # shellcheck source=./lib/helpers.sh
 source "${BINPATH}/lib/helpers.sh"
-# shellcheck source=./lib/panel.sh
-source "${BINPATH}/lib/panel.sh"
 
 
 ##
-# Sratchpad start here:
+# Scratchpad start here:
 ##
 array=()
 array+=(50)
@@ -44,11 +43,11 @@ array+=(90)
 array+=(12)
 
 printf "$( templateHeader 'Deploy script' )"
-printf "$( panelRow --top --columns="${array[*]}" )"
+printf "$( bash "${row}" --top --columns="${array[*]}" )"
+printf "$( bash ${BINPATH}/lib/table/row.sh --separator --columns="${array[*]}" )"
+printf "$( bash ${BINPATH}/lib/table/row.sh --middle --columns="${array[*]}" )"
+printf "$( bash ${BINPATH}/lib/table/row.sh --bottom --columns="${array[*]}" )"
 # printf "$( panelRow --middle --content="dude" )"
-printf "$( panelRow --separator --columns="${array[*]}" )"
-printf "$( panelRow --middle --columns="${array[*]}" )"
-printf "$( panelRow --bottom --columns="${array[*]}" )"
 # printf "$( panelRow --top --sections="${contentArray}" )"
 # printf "$( panelRow --middle --sections="${contentArray}" )"
 # printf "$( panelRow --separator=cross --sections="${contentArray}" )"
