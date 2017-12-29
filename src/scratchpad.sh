@@ -36,7 +36,19 @@ source "${BINPATH}/lib/panel.sh"
 ##
 # Sratchpad start here:
 ##
+array=()
+array+=(50)
+array+=(10)
+array+=(20)
+array+=(90)
+array+=(12)
+
 printf "$( templateHeader 'Deploy script' )"
+printf "$( panelRow --top --columns="${array[*]}" )"
+# printf "$( panelRow --middle --content="dude" )"
+printf "$( panelRow --separator --columns="${array[*]}" )"
+printf "$( panelRow --middle --columns="${array[*]}" )"
+printf "$( panelRow --bottom --columns="${array[*]}" )"
 # printf "$( panelRow --top --sections="${contentArray}" )"
 # printf "$( panelRow --middle --sections="${contentArray}" )"
 # printf "$( panelRow --separator=cross --sections="${contentArray}" )"

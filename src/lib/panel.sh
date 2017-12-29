@@ -8,7 +8,11 @@
 #
 # @desc: return a row of a panel
 #
-# @usage: panelRow --position [top|bottom|middle|separator]
+# @examples:
+#   panelRow --top
+#   panelRow --top --columns="${colsArray}"
+#   panelRow --middle
+#   panelRow --separator
 ##
 panelRow() {
   # colors
@@ -28,69 +32,106 @@ panelRow() {
   readonly BOTTOMSEPARATOR='┴'
   readonly LEFTSEPARATOR='├'
   readonly RIGHTSEPARATOR='┤'
+  readonly CROSSINGSEPARATOR='┼'
   readonly XLINE='─'
   readonly YLINE='│'
 
   # variables
   local row
   local left
-  local middle
   local right
-  local middleContent
+  local fill
+  local fillContent
+  local columns
+  local position
+  local separator
 
   # get positional parameters
   for i in "$@"
   do
-    case "${i}" in
-      -p=*|--position=*)
-        readonly local POSITION="${i#*=}"
-
-        # verify and set position
-        case "${POSITION}" in
-          'top')
-            left="${TOPLEFTCORNER}"
-            right="${TOPRIGHTCORNER}"
-            ;;
-          'bottom')
-            left="${BOTTOMLEFTCORNER}"
-            right="${BOTTOMRIGHTCORNER}"
-            ;;
-          'middle')
-            left="${YLINE}"
-            right="${YLINE}"
-            ;;
-          'separator')
-            left="${LEFTSEPARATOR}"
-            right="${RIGHTSEPARATOR}"
-            ;;
-          *)
-            echo "Error: Unknown argument: ${POSITION}" >&2
-            exit 1
-        esac
-
-        # past argument=value
+    local option="${i}"
+    case "${option}" in
+      -t|--top)
+        left="${TOPLEFTCORNER}"
+        right="${TOPRIGHTCORNER}"
+        position='top'
+        separator="${TOPSEPARATOR}"
         shift
         ;;
-      *)  # No more options
+      -b|--bottom)
+        left="${BOTTOMLEFTCORNER}"
+        right="${BOTTOMRIGHTCORNER}"
+        position='bottom'
+        separator="${BOTTOMSEPARATOR}"
+        shift
+        ;;
+      -m|--middle)
+        left="${YLINE}"
+        right="${YLINE}"
+        position='middle'
+        separator="${YLINE}"
+        shift
+        ;;
+      -s|--separator)
+        left="${LEFTSEPARATOR}"
+        right="${RIGHTSEPARATOR}"
+        position='separator'
+        separator="${CROSSINGSEPARATOR}"
+        shift
+        ;;
+      -c=*|--columns=*)
+        # pull array from args
+        IFS=', ' read -r -a columns <<< "${option#*=}"
+        unset IFS
+        # and sort it
+        columns=("$( printf "%s\n" "${columns[@]}" | sort -n )")
+        # shellcheck disable=SC2128
+        # shellcheck disable=SC2206
+        columns=($columns)
+        shift
+        ;;
+      -w=*|--content=*)
+        #TODO change it
+        readonly local CONTENT="${option#*=}"
+        shift
+        ;;
+      *)
+        # Unknown option
         echo "Error: Unknown option: $1" >&2
         exit 1
         ;;
     esac
   done
 
+
   # filling the rest of the width between the two edge of the panel.
-  [[ $POSITION = 'middle' ]] && middleContent=' ' || middleContent="${XLINE}"
   local i=0
+  local cursor=0
   while [  $i -lt $(( WIDTH - 2 )) ]; do
-    middle+="${middleContent}"
+    # if the columns option is passed we will place the separators
+    if [[ ${#columns} != 0 && $i = "${columns[$cursor]}" ]]; then
+      # place the separator
+      fill+="${separator}"
+      #now increment the cursor to the next column
+      if [[ $cursor -lt "(( ${#columns[@]} - 1 ))" ]]; then
+        ((cursor+=1))
+      fi
+    else
+      # choose between filling with XLINES or empty spaces
+      [[ $position = 'middle' ]] && fillContent=' ' || fillContent="${XLINE}"
+      # place the symbol
+      fill+="${fillContent}"
+    fi
+
     ((i+=1))
   done
 
-  # build the panel top
+
+  # build the panel row
   row+="${LIGHTGREY}${left}"
-  row+="${middle}"
+  row+="${fill}"
   row+="${right}${DEFAULTCOLOR}"
 
-  # export
+  # export row
   echo "${row}"
 }
