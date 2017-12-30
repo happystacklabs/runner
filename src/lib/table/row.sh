@@ -4,8 +4,9 @@
 
 
 # TODO 📢
+# ☑️  Add the align right, center and right feature.
 # ☑️  Refactor cell and its helpers into its own file.
-# ☑️  make ShellCheck pass.
+# ☑️  Make ShellCheck pass.
 # ☑️
 
 
@@ -77,7 +78,7 @@ cellSpacing() {
 
   # fill the cell with empty space
   for (( i = 0; i < $1; i++ )); do
-    fill+=("-")
+    fill+=('-')
   done
 
   # export
@@ -90,16 +91,39 @@ cellSpacing() {
 #
 # @desc: return a string with the cell
 #
-# @usage: cell <content> <space length>
+# @usage: cell <content> <space length> <align>
 ##
 cell() {
   # variables
   local fill=()
   local content="${1}"
   local length="${2}"
+  local align="${3}"
 
-  fill+="${DEFAULTCOLOR}${content}${LIGHTGREY}"
-  fill+=$(cellSpacing "${length}")
+  case $align in
+    left)
+      fill+="${DEFAULTCOLOR}${content}${LIGHTGREY}"
+      fill+=$(cellSpacing "${length}")
+      ;;
+    center)
+    # variables
+      # echo $length
+      local leftSpacing=$(( (length + 1) / 2 ))
+      local contentEscaped
+      contentEscaped=$(echo -e ${content[${#columns[@]}]]} | sed "s/[\\]e\[[0-9;]*m//g")
+      local rightSpacing=$(( length - leftSpacing - ${#contentEscaped} ))
+      # echo $leftSpacing
+      # add the content to the cell
+      fill+=$(cellSpacing "${leftSpacing}")
+      fill+="${DEFAULTCOLOR}${content}${LIGHTGREY}"
+      fill+=$(cellSpacing "${rightSpacing}")
+      ;;
+    right)
+      fill+=$(cellSpacing "${length}")
+      fill+="${DEFAULTCOLOR}${content}${LIGHTGREY}"
+      ;;
+  esac
+
 
   # export
   echo "$(printf "%s" "${fill[@]}")"
@@ -111,11 +135,12 @@ cell() {
 #
 # @desc: return a string with the row content with formatted cells
 #
-# @usage: content <columnsArray> <contentArray>
+# @usage: content <columnsArray> <contentArray> <align>
 ##
 content() {
   local columns=$1
   local content=$2
+  local align=$3
 
   IFS=', ' read -r -a columns <<< "${columns}"
   IFS=', ' read -r -a content <<< "${content}"
@@ -131,26 +156,28 @@ content() {
     if [[ $i = 0 ]]; then
       # first cell length is same than the first column x position
       cellLength=$(( columns[i] - contentLength ))
+      # echo $cellLength
     else
       # the other cells length are the difference between current column and previous column
-      cellLength=$(( columns[i] - columns[i-1] - contentLength - 1 ))
+      cellLength=$(( columns[i] - columns[i-1] - contentLength  - 1 ))
+      # echo $cellLength
     fi
     # fill the cell
-    fill+=$(cell "${content[i]}" "${cellLength}")
+    fill+=$(cell "${content[i]}" "${cellLength}" "${align}")
     fill+="${YLINE}"
   done
 
   # fill the last cell
   local lastCellLength
   local lastContentEscaped
-  lastContentEscaped=$(echo -e ${content[${#columns[@]}]]} | sed "s/[\\]e\[[0-9;]*m//g")
-  local lastContentLength="${#contentEscaped}"
+  lastContentEscaped=$(echo ${content[${#content[@]}-1]} | sed "s/[\\]e\[[0-9;]*m//g")
+  local lastContentLength="${#lastContentEscaped}"
 
   # get the last cell length
   lastCellLength=$(( ( WIDTH - 3 ) - columns[${#columns[@]}-1] - lastContentLength ))
 
   # fill the last cell
-  fill+=$(cell "${content[${#columns[@]}]}" "${lastCellLength}")
+  fill+=$(cell "${content[${#columns[@]}]}" "${lastCellLength}" "${align}")
 
   # export fill
   echo "${fill}"
@@ -195,18 +222,20 @@ border() {
 # @usage: row [top|middle|bottom|separator] [options]
 #
 # @options:
-#   --column={columnArray}
-#   --content={contentArray}
+#   --column=columnArray
+#   --content=contentArray
 #   --up
 #   --down
 #   --cross
+#   --align=[left|center|right]
 #
 # @examples:
 #   row top
-#   row top --columns="${colsArray}"
-#   row middle --columns="${colsArray} --content={contentArray}
+#   row top --columns={colsArray}
+#   row middle --columns=colsArray --content=contentArray
+#   row middle --columns=colsArray --content=contentArray --align=center
 #   row separator
-#   row separator --columns="${colsArray}" --up
+#   row separator --columns={colsArray" --up
 ##
 row() {
   # variables
@@ -216,8 +245,9 @@ row() {
   local fill
   local columns
   local rowType
-  local separator="${XLINE}"
+  local separator="${XLINE}" # default value to XLINE
   local content
+  local align='left' # default value to left
 
   # get positional parameters and configure the script according to what was passed
   for i in "$@"; do
@@ -279,6 +309,15 @@ row() {
         unset IFS
         shift
         ;;
+      --align=*)
+      # get option
+        align="${i#*=}"
+        # failsafe
+        if [[ $align != 'left' &&  $align != 'center' && $align != 'right' ]]; then
+          echo '--align was passed the wrong option.' >&2
+          exit 1
+        fi
+        ;;
       *)
         # Unknown option
         echo "Error: Unknown option: $1" >&2
@@ -293,7 +332,7 @@ row() {
     fill+="$( border "${columns[*]}" "${separator}" )"
   else
     # fill the row with content
-    fill+="$( content "${columns[*]}" "${content[*]}" )"
+    fill+="$( content "${columns[*]}" "${content[*]}" "${align}" )"
   fi
 
   # build the table row

@@ -47,17 +47,17 @@ array+=(50)
 # array+=(12)
 
 content=()
-content+=('AB')
-content+=('BK')
+content+=('A')
+content+=('BBBB')
 content+=('\e[38;5;105mCKKK\e[39m')
-content+=('D')
-content+=('E')
+content+=('DDD')
+content+=('EE')
 # content+=('F')
 
 printf "$( templateHeader 'Deploy script' )"
 printf "$( bash "${row}" top )"
 printf "$( bash ${BINPATH}/lib/table/row.sh separator --columns="${array[*]}" --down )"
-printf "$( bash ${BINPATH}/lib/table/row.sh middle --columns="${array[*]}" --content="${content[*]}" )"
+printf "$( bash ${BINPATH}/lib/table/row.sh middle --columns="${array[*]}" --content="${content[*]}" --align='center' )"
 # printf "$( bash ${BINPATH}/lib/table/row.sh middle --columns="${array[*]}" )"
 # printf "$( bash ${BINPATH}/lib/table/row.sh middle )"
 printf "$( bash ${BINPATH}/lib/table/row.sh bottom --columns="${array[*]}" )"
