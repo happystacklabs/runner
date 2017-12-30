@@ -4,7 +4,7 @@
 
 
 # TODO 📢
-# ☑️  Add the align right, center and right feature.
+# ☑️  Add color feature.
 # ☑️  Refactor cell and its helpers into its own file.
 # ☑️  Make ShellCheck pass.
 # ☑️
@@ -66,6 +66,25 @@ concateRow() {
 
 
 ##
+# escapeString
+#
+# @desc: strip ascii color code out of the string
+#
+# @usage: escapeString <string>
+##
+escapeString() {
+  local string="${1}"
+
+  # strip the string out of ascii color code
+  local escapedString
+  escapedString=$(echo -e ${string} | sed "s/[\\]e\[[0-9;]*m//g")
+
+  # export escapeString
+  echo "${escapedString}"
+}
+
+
+##
 # cellSpacing
 #
 # @desc: return a string with the cell empty spaces
@@ -110,7 +129,7 @@ cell() {
       # echo $length
       local rightSpacing=$(( (length + 1) / 2 ))
       local contentEscaped
-      contentEscaped=$(echo -e ${content[${#columns[@]}]]} | sed "s/[\\]e\[[0-9;]*m//g")
+      contentEscaped=$( escapeString "${content[${#columns[@]}]]}" )
       local leftSpacing=$(( length - rightSpacing - ${#contentEscaped} ))
       # echo $leftSpacing
       # add the content to the cell
@@ -150,7 +169,7 @@ content() {
   for (( i = 0; i < "${#columns[@]}"; i++ )); do
     local cellLength
     local contentEscaped
-    contentEscaped=$(echo -e ${content[i]} | sed "s/[\\]e\[[0-9;]*m//g")
+    contentEscaped=$( escapeString "${content[i]}" )
     local contentLength="${#contentEscaped}"
     # set the length of the cell
     if [[ $i = 0 ]]; then
@@ -170,7 +189,7 @@ content() {
   # fill the last cell
   local lastCellLength
   local lastContentEscaped
-  lastContentEscaped=$(echo ${content[${#content[@]}-1]} | sed "s/[\\]e\[[0-9;]*m//g")
+  lastContentEscaped=$( escapeString "${content[${#content[@]}-1]}" )
   local lastContentLength="${#lastContentEscaped}"
 
   # get the last cell length
