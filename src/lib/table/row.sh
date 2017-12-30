@@ -3,6 +3,12 @@
 # Copyright Happystack
 
 
+# TODO 📢
+# ☑️  Refactor cell and its helpers into its own file.
+# ☑️  make ShellCheck pass.
+# ☑️
+
+
 # colors
 readonly DEFAULTCOLOR='\e[39m'
 readonly LIGHTGREY='\e[38;5;240m'
@@ -198,7 +204,7 @@ border() {
 # @examples:
 #   row top
 #   row top --columns="${colsArray}"
-#   row middle
+#   row middle --columns="${colsArray} --content={contentArray}
 #   row separator
 #   row separator --columns="${colsArray}" --up
 ##
