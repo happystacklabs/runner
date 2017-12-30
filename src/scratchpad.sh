@@ -36,25 +36,26 @@ source "${BINPATH}/lib/helpers.sh"
 # Scratchpad start here:
 ##
 array=()
+array+=(4)
+array+=(9)
+# array+=(20)
 array+=(50)
-array+=(10)
-array+=(20)
-array+=(90)
-array+=(12)
+# array+=(12)
 
 content=()
-content+=('A')
+content+=('sd')
 content+=('B')
 content+=('C')
 content+=('D')
-content+=('E')
-content+=('F')
+# content+=('E')
+# content+=('F')
 
-printf "$( templateHeader 'Deploy script' )"
-printf "$( bash "${row}" top )"
+# printf "$( templateHeader 'Deploy script' )"
+# printf "$( bash "${row}" top )"
 printf "$( bash ${BINPATH}/lib/table/row.sh separator --columns="${array[*]}" --down )"
 printf "$( bash ${BINPATH}/lib/table/row.sh middle --columns="${array[*]}" --content="${content[*]}" )"
-printf "$( bash ${BINPATH}/lib/table/row.sh bottom --columns="${array[*]}" )"
+# printf "$( bash ${BINPATH}/lib/table/row.sh middle )"
+# printf "$( bash ${BINPATH}/lib/table/row.sh bottom --columns="${array[*]}" )"
 # printf "$( panelRow --middle --content="dude" )"
 # printf "$( panelRow --top --sections="${contentArray}" )"
 # printf "$( panelRow --middle --sections="${contentArray}" )"

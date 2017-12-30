@@ -57,6 +57,18 @@ concateRow() {
 }
 
 
+cell() {
+  local fill=()
+
+  for (( i = 0; i < $1; i++ )); do
+    fill+='-'
+  done
+
+  echo "${fill}"
+}
+
+
+
 ##
 # row
 #
@@ -84,14 +96,12 @@ row() {
   local left
   local right
   local fill
-  local fillContent
   local columns
   local rowType
   local separator="${XLINE}"
 
-  # get positional parameters
-  for i in "$@"
-  do
+  # get positional parameters and configure the script according to what was passed
+  for i in "$@"; do
     local option="${i}"
     case "${option}" in
       top)
@@ -159,39 +169,43 @@ row() {
   done
 
 
-  # filling the rest of the width between the two edge of the panel.
-  local i=0
-  local cursor=0
-  local contentCursor=0
-  while [  $i -lt $(( WIDTH - 2 )) ]; do
-    # if the columns option is passed we will place the separators
-    if [[ ${#columns} != 0 && $i = "${columns[$cursor]}" ]]; then
-      # place the separator
-      fill+="${separator}"
-      # increment the cursor to the next column
-      if [[ $cursor -lt "(( ${#columns[@]} - 1 ))" ]]; then
-        ((cursor+=1))
-      fi
+  # filling the row for separator and xline
+  local columnCounter=0
+  for (( x = 0; x < $(( WIDTH - 2 )); x++ )); do
+    if [[ ${#columns} != 0 && $x = "${columns[$columnCounter]}" ]]; then
+      # SEPARATOR
+      if [[ $rowType != 'middle' ]]; then fill+="${separator}"; fi
+      # increment columnCounter
+      ((columnCounter+=1))
     else
-      # choose between filling with XLINES or empty spaces
-      if [[ ${#content} != 0 && $i = "$contentCursor" ]]; then
-        [[ $rowType = 'middle' ]] && fillContent="${content[$cursor]}" || fillContent="${XLINE}"
-        # place the symbol
-        fill+="${fillContent}"
-
-        # update contentCursor
-        contentCursor=$(( ${columns[$cursor]} + 1 ))
-      else
-        [[ $rowType = 'middle' ]] && fillContent=' ' || fillContent="${XLINE}"
-        # place the symbol
-        fill+="${fillContent}"
-      fi
-
+      if [[ $rowType != 'middle' ]]; then fill+="${XLINE}"; fi
     fi
-
-    ((i+=1))
   done
 
+  # filling the middle row with content
+  if [[ $rowType = 'middle' ]]; then
+    # fill n - 1 cells
+    for (( i = 0; i < "${#columns[@]}"; i++ )); do
+
+      local length
+      # set the length of the cell
+      if [[ $i = 0 ]]; then
+        # first cell length is same than the first column x position
+        length=$(( columns[i] ))
+      else
+        # the other cells length are the difference between current column and previous column
+        length=$(( columns[i] - columns[i-1] - 1 ))
+      fi
+      # fill the cell
+      fill+=$(cell "${length}")
+      fill+="${YLINE}"
+    done
+
+    # fill last cell
+    # local length=$(( WIDTH - columns[${#columns[@]}-1] - ( ${#columns[@]} + 1 ) ))
+    local length=$(( ( WIDTH - 3 ) - columns[${#columns[@]}-1] ))
+    fill+=$(cell "${length}")
+  fi
 
   # build the panel row
   row="$( concateRow "${left}" "${fill}" "${right}" )"
