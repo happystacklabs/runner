@@ -108,10 +108,10 @@ cell() {
     center)
     # variables
       # echo $length
-      local leftSpacing=$(( (length + 1) / 2 ))
+      local rightSpacing=$(( (length + 1) / 2 ))
       local contentEscaped
       contentEscaped=$(echo -e ${content[${#columns[@]}]]} | sed "s/[\\]e\[[0-9;]*m//g")
-      local rightSpacing=$(( length - leftSpacing - ${#contentEscaped} ))
+      local leftSpacing=$(( length - rightSpacing - ${#contentEscaped} ))
       # echo $leftSpacing
       # add the content to the cell
       fill+=$(cellSpacing "${leftSpacing}")

@@ -48,7 +48,7 @@ array+=(50)
 
 content=()
 content+=('A')
-content+=('BBBB')
+content+=('BBB')
 content+=('\e[38;5;105mCKKK\e[39m')
 content+=('DDD')
 content+=('EE')
