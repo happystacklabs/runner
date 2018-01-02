@@ -23,46 +23,54 @@ set -o pipefail # Exit immediately if a pipeline returns non-zero.
 ##
 # Global constants.
 ##
-readonly BINPATH="$(dirname "$0")"
+readonly MPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 
 ##
 # Imports.
 ##
-readonly row="${BINPATH}/lib/table/row.sh"
+readonly row="${MPATH}/lib/table/row.sh"
+readonly loader="${MPATH}/lib/loader/loader.sh"
+readonly taskRunner="${MPATH}/lib/taskRunner/taskRunner.sh"
 # shellcheck source=./lib/templates.sh
-source "${BINPATH}/lib/templates.sh"
+source "${MPATH}/lib/templates.sh"
 # shellcheck source=./lib/helpers.sh
-source "${BINPATH}/lib/helpers.sh"
+source "${MPATH}/lib/helpers.sh"
 
 
 ##
 # Scratchpad start here:
 ##
-array=()
-array+=(4)
-array+=(9)
-array+=(20)
-array+=(50)
-# array+=(12)
 
-content=()
-content+=('A')
-content+=('BBB')
-content+=('\e[38;5;105mCKKK\e[39m')
-content+=('DDD')
-content+=('EE')
-# content+=('F')
 
-printf "$( templateHeader 'Deploy script' )"
-printf "$( bash "${row}" top )"
-printf "$( bash ${BINPATH}/lib/table/row.sh separator --columns="${array[*]}" --down )"
-printf "$( bash ${BINPATH}/lib/table/row.sh middle --columns="${array[*]}" --content="${content[*]}" --align='center' )"
-# printf "$( bash ${BINPATH}/lib/table/row.sh middle --columns="${array[*]}" )"
-# printf "$( bash ${BINPATH}/lib/table/row.sh middle )"
-printf "$( bash ${BINPATH}/lib/table/row.sh bottom --columns="${array[*]}" )"
-# printf "$( panelRow --middle --content="dude" )"
-# printf "$( panelRow --top --sections="${contentArray}" )"
-# printf "$( panelRow --middle --sections="${contentArray}" )"
-# printf "$( panelRow --separator=cross --sections="${contentArray}" )"
-# printf "$( panelRow --bottom --sections="${contentArray}" )"
+bash "${taskRunner}" 'tasks.sh' '0.3.1'
+
+exit 0
+
+# array=()
+# array+=(4)
+# array+=(9)
+# array+=(20)
+# array+=(50)
+# # array+=(12)
+#
+# content=()
+# content+=('A')
+# content+=('BBB')
+# content+=('\e[38;5;105mCKKK\e[39m')
+# content+=('DDD')
+# content+=('EE')
+# # content+=('F')
+#
+# printf "$( templateHeader 'Deploy script' )"
+# printf "$( bash "${row}" top )"
+# printf "$( bash ${BINPATH}/lib/table/row.sh separator --columns="${array[*]}" --down )"
+# printf "$( bash ${BINPATH}/lib/table/row.sh middle --columns="${array[*]}" --content="${content[*]}" --align='center' )"
+# # printf "$( bash ${BINPATH}/lib/table/row.sh middle --columns="${array[*]}" )"
+# # printf "$( bash ${BINPATH}/lib/table/row.sh middle )"
+# printf "$( bash ${BINPATH}/lib/table/row.sh bottom --columns="${array[*]}" )"
+# # printf "$( panelRow --middle --content="dude" )"
+# # printf "$( panelRow --top --sections="${contentArray}" )"
+# # printf "$( panelRow --middle --sections="${contentArray}" )"
+# # printf "$( panelRow --separator=cross --sections="${contentArray}" )"
+# # printf "$( panelRow --bottom --sections="${contentArray}" )"

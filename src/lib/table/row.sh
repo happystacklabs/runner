@@ -4,9 +4,9 @@
 
 
 # TODO 📢
+# ☑️  handle empty columns and empty content
 # ☑️  Add color feature.
 # ☑️  Refactor cell and its helpers into its own file.
-# ☑️  Make ShellCheck pass.
 # ☑️
 
 
@@ -32,7 +32,7 @@ readonly RIGHTSEPARATOR='┤'
 readonly CROSSINGSEPARATOR='┼'
 readonly XLINE='─'
 readonly YLINE='│'
-
+readonly SPACE=' '
 
 
 ##
@@ -50,7 +50,7 @@ concateRow() {
   fi
 
   # variables
-  local row
+  local row # string
   local left="${1}"
   local fill="${2}"
   local right="${3}"
@@ -93,11 +93,11 @@ escapeString() {
 ##
 cellSpacing() {
   # variables
-  local fill=()
+  local fill=() # array
 
   # fill the cell with empty space
   for (( i = 0; i < $1; i++ )); do
-    fill+=('-')
+    fill+=(${SPACE})
   done
 
   # export
@@ -114,32 +114,30 @@ cellSpacing() {
 ##
 cell() {
   # variables
-  local fill=()
+  local fill=() # array
   local content="${1}"
   local length="${2}"
   local align="${3}"
 
   case $align in
     left)
-      fill+="${DEFAULTCOLOR}${content}${LIGHTGREY}"
-      fill+=$(cellSpacing "${length}")
+      fill+=("${DEFAULTCOLOR}${content}${LIGHTGREY}")
+      fill+=("$(cellSpacing "${length}")")
       ;;
     center)
-    # variables
-      # echo $length
+      # variables
       local rightSpacing=$(( (length + 1) / 2 ))
       local contentEscaped
-      contentEscaped=$( escapeString "${content[${#columns[@]}]]}" )
-      local leftSpacing=$(( length - rightSpacing - ${#contentEscaped} ))
-      # echo $leftSpacing
+      contentEscaped=$( escapeString "${content}" )
+      local leftSpacing=$(( length - rightSpacing ))
       # add the content to the cell
-      fill+=$(cellSpacing "${leftSpacing}")
-      fill+="${DEFAULTCOLOR}${content}${LIGHTGREY}"
-      fill+=$(cellSpacing "${rightSpacing}")
+      fill+=("$(cellSpacing "${leftSpacing}")")
+      fill+=("${DEFAULTCOLOR}${content}${LIGHTGREY}")
+      fill+=("$(cellSpacing "${rightSpacing}")")
       ;;
     right)
-      fill+=$(cellSpacing "${length}")
-      fill+="${DEFAULTCOLOR}${content}${LIGHTGREY}"
+      fill+=("$(cellSpacing "${length}")")
+      fill+=("${DEFAULTCOLOR}${content}${LIGHTGREY}")
       ;;
   esac
 
@@ -160,10 +158,30 @@ content() {
   local columns=$1
   local content=$2
   local align=$3
+  local fill
 
   IFS=', ' read -r -a columns <<< "${columns}"
-  IFS=', ' read -r -a content <<< "${content}"
+  IFS='~' read -r -a content <<< "${content}"
   unset IFS
+
+  # if no content just fill the row with empty
+  if [[ ${#content} = 0 ]]; then
+    cellLength=$(( WIDTH - 2 ))
+    echo "$(cellSpacing "${cellLength}")"
+    return
+  fi
+
+  # if no columns just fill the row with empty after content
+  if [[ ${#columns} = 0 ]]; then
+    local contentEscaped
+    contentEscaped=$( escapeString "${content}" )
+    local contentLength="${#contentEscaped}"
+    local rowLength=$(( WIDTH - 2 - contentLength ))
+
+    fill+=$(cell "${content}" "${rowLength}" "${align}")
+    echo "${fill}"
+    return
+  fi
 
   # loop over the n-1 cells
   for (( i = 0; i < "${#columns[@]}"; i++ )); do
@@ -230,7 +248,6 @@ border() {
 
   echo "${fill}"
 }
-
 
 
 ##
@@ -323,9 +340,7 @@ row() {
         shift
         ;;
       --content=*)
-        # pull array from args
-        IFS=', ' read -r -a content <<< "${option#*=}"
-        unset IFS
+        content="${option#*=}"
         shift
         ;;
       --align=*)
@@ -351,7 +366,7 @@ row() {
     fill+="$( border "${columns[*]}" "${separator}" )"
   else
     # fill the row with content
-    fill+="$( content "${columns[*]}" "${content[*]}" "${align}" )"
+    fill+="$( content "${columns[*]}" "${content}" "${align}" )"
   fi
 
   # build the table row

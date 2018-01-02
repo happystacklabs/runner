@@ -17,21 +17,23 @@
 templateHeader() {
   # colors
   readonly DEFAULTCOLOR='\e[39m'
-  readonly PURPLE='\e[38;5;105m'
+  # readonly PURPLE='\e[38;5;105m'
 
   # default value
+  local title='HAPPYSTACK'
   local subtitle='A Bash script'
 
   # set subtitle value if argument passed
-  if [[ $# -eq 1 ]] ; then
-    subtitle="${1}"
+  if [[ $# -eq 2 ]] ; then
+    title="${1}"
+    subtitle="${2}"
   fi
 
   # export
   echo "
     /\═════════\™
    /__\‸_____/__\‸
-  │    │         │   ${PURPLE}HAPPYSTACK KIT${DEFAULTCOLOR}
+  │    │         │   ${PURPLE}${title}${DEFAULTCOLOR}
   │    │  \___/  │   ${subtitle}
   ╰────┴─────────╯\n
 "
