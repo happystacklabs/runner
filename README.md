@@ -1,4 +1,5 @@
 <img src=".github/happystack.png" alt="Happystack" width="150" height="150" />
+
 ![Version](https://img.shields.io/badge/Version-0.2.0-green.svg?style=flat)
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
 
