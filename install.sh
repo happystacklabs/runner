@@ -6,7 +6,7 @@
 # Constants
 readonly PACKAGE='bashrunner'
 readonly GITURL='https://github.com/happystacklabs/bashrunner.git'
-readonly INSTALLDIR="${INSTALLDIR}"
+INSTALLDIR="${INSTALLDIR}"
 
 
 ##
