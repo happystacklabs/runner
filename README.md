@@ -12,18 +12,22 @@ curl -fsSL https://raw.githubusercontent.com/happystack/bashrunner/master/instal
 ```
 
 ### Usage
-```javascript
+```
+
    /\═════════\™
   /__\‸_____/__\‸
  │    │         │   HAPPYSTACK
  │    │  \___/  │   BashRunner
  ╰────┴─────────╯
-
- usage: bashrunner COMMAND [OPTIONS] [help]
-
-    COMMANDS:
-    - task file       (ex: ./tasks.sh)
-    - version         (ex: 2.0.0)
+╭─────────────────────────────────────────────────╮
+│                                                 │
+│  usage:  bashrunner COMMAND [OPTIONS] [help]    │
+│                                                 │
+│    COMMANDS:                                    │
+│       task file         (ex: ./tasks.sh)        │
+│       version           (ex: 2.0.0)             │
+│                                                 │
+╰─────────────────────────────────────────────────╯
 
 ```
 
