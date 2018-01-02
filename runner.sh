@@ -42,15 +42,15 @@ readonly HEIGHT="$(tput lines)"
 ##
 # Imports.
 ##
-readonly row="${MPATH}/../table/row.sh"
-readonly loader="${MPATH}/../loader/loader.sh"
-readonly progressBar="${MPATH}/../progressBar/progressBar.sh"
-# shellcheck source=./../templates.sh
-source "${MPATH}/../templates.sh"
-# shellcheck source=./../helpers.sh
-source "${MPATH}/../helpers.sh"
-# shellcheck source=./../icons.sh
-source "${MPATH}/../icons.sh"
+readonly row="${MPATH}/lib/table/row.sh"
+readonly loader="${MPATH}/lib/loader/loader.sh"
+readonly progressBar="${MPATH}/lib/progressBar/progressBar.sh"
+# shellcheck source=./lib/templates.sh
+source "${MPATH}/lib/templates.sh"
+# shellcheck source=./lib/helpers.sh
+source "${MPATH}/lib/helpers.sh"
+# shellcheck source=./lib/icons.sh
+source "${MPATH}/lib/icons.sh"
 
 
 
@@ -171,7 +171,7 @@ statusFooter() {
 
   # BIB!
   sleep 0.2
-  afplay "${MPATH}/../taskRunner/sounds/${sound}" || paplay "${MPATH}/../taskRunner/sounds/${sound}" || echo -ne '\007'
+  afplay "${MPATH}/sounds/${sound}" || paplay "${MPATH}/sounds/${sound}" || echo -ne '\007'
 
   # place cursor to bottom
   tput cup "${HEIGHT}" 0
