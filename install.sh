@@ -4,8 +4,8 @@
 
 
 # Constants
-PACKAGE='bashrunner'
-GITURL='https://github.com/happystacklabs/bashrunner.git'
+readonly PACKAGE='runner'
+readonly GITURL='https://github.com/happystacklabs/runner.git'
 INSTALLDIR="${INSTALLDIR}"
 
 
@@ -50,7 +50,7 @@ install() {
     # fresh install from git
     echo "${PACKAGE}: Downloading from git to ${INSTALLDIR}"
     # clone from git url
-    command git clone --depth 1 ${GIT_URL} ${INSTALL_DIR} || {
+    command git clone --depth 1 ${GITURL} ${INSTALLDIR} || {
       echo >&2 "Failed to clone FROM ${GITURL}"
       exit 1
     }
