@@ -5,13 +5,14 @@
 ![Version](https://img.shields.io/badge/Version-0.2.0-green.svg?style=flat)
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
 
-#### BashRunner is a Bash task runner used at Happystack for automating various work and deployment.
-### Installation:
+#### BashRunner is a task runner used at Happystack for automating various tasks and deployment.
+
+### 🔧 Installation:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/happystack/bashrunner/master/install.sh | sh
 ```
 
-### Usage
+### 🕹 Usage
 ```
 
    /\═════════\™
@@ -21,7 +22,7 @@ curl -fsSL https://raw.githubusercontent.com/happystack/bashrunner/master/instal
  ╰────┴─────────╯
 ╭─────────────────────────────────────────────────╮
 │                                                 │
-│  usage:  bashrunner COMMAND [OPTIONS] [help]    │
+│  usage:  bashrunner COMMANDS [OPTIONS] [help]   │
 │                                                 │
 │    COMMANDS:                                    │
 │       task file         (ex: ./tasks.sh)        │
@@ -31,8 +32,8 @@ curl -fsSL https://raw.githubusercontent.com/happystack/bashrunner/master/instal
 
 ```
 
-## Licenses
+## 📄 Licenses
 * Source code is licensed under [MIT](https://opensource.org/licenses/MIT)
 
-## Feedback
+## 💡 Feedback
 [Create an issue or feature request](https://github.com/happystacklabs/bashrunner/issues/new).
