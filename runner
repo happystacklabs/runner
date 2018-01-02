@@ -282,7 +282,7 @@ runTasks() {
     disown
 
     # run the current task and handle failure
-    if eval "${tasksCommand[${currentStep}]}" > "${MPATH}/out.log" 2> "${MPATH}/err.log"; then
+    if eval "${tasksCommand[${currentStep}]}" > "$(pwd)/out.log" 2> "$(pwd)/err.log"; then
       # stop animation
       kill $animationPID 2>/dev/null
       # increment the current step
