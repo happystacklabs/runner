@@ -25,7 +25,7 @@ curl -fsSL https://raw.githubusercontent.com/happystack/bashrunner/master/instal
 │  usage:  bashrunner COMMANDS [OPTIONS] [help]   │
 │                                                 │
 │    COMMANDS:                                    │
-│       task file         (ex: ./tasks.sh)        │
+│       tasks file        (ex: ./tasks.sh)        │
 │       version           (ex: 2.0.0)             │
 │                                                 │
 ╰─────────────────────────────────────────────────╯

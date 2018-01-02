@@ -3,11 +3,6 @@
 # Copyright (c) Happystack
 
 
-# TODO 📢
-# ☑️  Add the basic table.
-# ☑️
-
-
 # variables
 # shellcheck disable=SC2034
 tasks=()
@@ -25,5 +20,3 @@ tasksCommand[0]='sleep 5.0'
 ################################################################################
 tasks[1]='Task two'
 tasksCommand[1]='sleep 1.0'
-
-# runTask 'CI=true npm test'
