@@ -24,7 +24,7 @@ set -o pipefail # Catch the error in case mysqldump fails (but gzip succeeds) in
 ##
 # Global constants.
 ##
-readonly MPATH="$(dirname "$(readlink -f "$0")")"
+readonly MPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd -P )"
 readonly EMPTY=' '
 readonly GREEN='\e[32m'
 readonly RED='\e[31m'
