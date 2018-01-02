@@ -4,7 +4,10 @@
 
 
 # TODO 📢
-# ☑️
+# ☑️ Pack for production
+# ☑️ Make documentation
+# ☑️ print the real path for err.log
+# ☑️ Add me!
 
 
 ##
@@ -247,9 +250,10 @@ printTable() {
 #
 ##
 startAnimation() {
-  # restore cursor position
+  # restore cursor position to clock icon
   tput rc
   tput cub $(( WIDTH - 6 ))
+  # animate the clock icon
   while sleep 0.2; do
     tput ech 1
     tput cub1
