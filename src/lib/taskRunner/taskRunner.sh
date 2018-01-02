@@ -88,7 +88,7 @@ printTask() {
       # right
       rightContent+="[${FAILEDSTATUS}]"
       # center
-      middleLength=$(( WIDTH - ${#leftContent} - ${#rightContent} - 6 ))
+      middleLength=$(( WIDTH - ${#leftContent} - ${#rightContent} - 3 ))
       ;;
     --progress)
       # left
@@ -97,7 +97,7 @@ printTask() {
       # right
       rightContent+="${PURPLE}[${INPROGRESSSTATUS}]"
       # center
-      middleLength=$(( WIDTH - ${#leftContent} - ${#rightContent} ))
+      middleLength=$(( WIDTH - ${#leftContent} - ${#rightContent} + 3 ))
       ;;
     --done)
       # left
@@ -106,7 +106,7 @@ printTask() {
       # right
       rightContent+="[${DONESTATUS}]"
       # center
-      middleLength=$(( WIDTH - ${#leftContent} - ${#rightContent} - 6 ))
+      middleLength=$(( WIDTH - ${#leftContent} - ${#rightContent} - 3 ))
       ;;
     *)
       # left
@@ -127,6 +127,7 @@ printTask() {
   content+="${leftContent}"
   content+="${middleContent}"
   content+="${rightContent}"
+
 
   printf "$( bash $row middle --content="${content}" --align='left' )"
 }
@@ -199,7 +200,7 @@ printTable() {
   headerContentLength="$(( ${#headerContent} + padding - 1 ))"
 
   # add progress bar to headerContent
-  local progressBarWidth=$(( WIDTH - headerContentLength - (padding * 2) - 1  ))
+  local progressBarWidth=$(( WIDTH - headerContentLength - padding  ))
   progressContent="$( bash $progressBar "${progressBarWidth}" "${currentStep}" "${#tasks[*]}" )"
   headerContent+="${progressContent}~"
 
@@ -219,6 +220,8 @@ printTable() {
         printTask "${tasks[i]}" --error
       else
         printTask "${tasks[i]}" --progress
+        # save cursor position
+        tput sc
       fi
     else
       if [[ $i -lt $currentStep ]]; then
@@ -236,6 +239,26 @@ printTable() {
 
 
 ##
+# startAnimation
+#
+# @desc: start the task progress animation
+#
+# @usage: startAnimation
+#
+##
+startAnimation() {
+  # restore cursor position
+  tput rc
+  tput cub $(( WIDTH - 6 ))
+  while sleep 0.2; do
+    tput ech 1
+    tput cub1
+    printf "${TIMESEQUENCE:i++%${#TIMESEQUENCE}:1}"
+  done
+}
+
+
+##
 # runTasks
 #
 # @desc: run a task
@@ -248,11 +271,22 @@ runTasks() {
   while [[ "${currentStep}" -lt $(( ${#tasks[*]} )) ]]; do
     # print the table
     printTable
+
+    # start animation
+    startAnimation &
+    animationPID=$!
+    disown
+
     # run the current task and handle failure
     if eval "${tasksCommand[${currentStep}]}" > "${MPATH}/out.log" 2> "${MPATH}/err.log"; then
+      # stop animation
+      kill $animationPID 2>/dev/null
       # increment the current step
       currentStep=$(( $currentStep + 1 ))
     else
+      # stop animation
+      kill $animationPID 2>/dev/null
+
       # print error table
       printTable --error
 
