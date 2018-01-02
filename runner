@@ -42,15 +42,15 @@ readonly HEIGHT="$(tput lines)"
 ##
 # Imports.
 ##
-readonly row="${MPATH}/runner/lib/table/row.sh"
-readonly loader="${MPATH}/runner/lib/loader/loader.sh"
-readonly progressBar="${MPATH}/runner/lib/progressBar/progressBar.sh"
-# shellcheck source=./runner/lib/templates.sh
-source "${MPATH}/runner/lib/templates.sh"
-# shellcheck source=./runner/lib/helpers.sh
-source "${MPATH}/runner/lib/helpers.sh"
-# shellcheck source=./runner/lib/icons.sh
-source "${MPATH}/runner/lib/icons.sh"
+readonly row="${MPATH}/lib/table/row.sh"
+readonly loader="${MPATH}/lib/loader/loader.sh"
+readonly progressBar="${MPATH}/lib/progressBar/progressBar.sh"
+# shellcheck source=./lib/templates.sh
+source "${MPATH}/lib/templates.sh"
+# shellcheck source=./lib/helpers.sh
+source "${MPATH}/lib/helpers.sh"
+# shellcheck source=./lib/icons.sh
+source "${MPATH}/lib/icons.sh"
 
 
 
