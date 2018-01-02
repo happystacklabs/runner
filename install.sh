@@ -4,8 +4,8 @@
 
 
 # Constants
-readonly PACKAGE='bashrunner'
-readonly GITURL='https://github.com/happystacklabs/bashrunner.git'
+PACKAGE='bashrunner'
+GITURL='https://github.com/happystacklabs/bashrunner.git'
 INSTALLDIR="${INSTALLDIR}"
 
 

@@ -9,7 +9,7 @@
 
 ## 🔧 Installation
 ```bash
-curl -fsSL https://raw.githubusercontent.com/happystack/bashrunner/master/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/happystacklabs/bashrunner/master/install.sh | sh
 ```
 
 ## 🕹 Usage
