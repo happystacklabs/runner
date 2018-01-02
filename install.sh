@@ -56,8 +56,8 @@ install() {
     }
     # set permissions
     chmod -R 755 ${INSTALLDIR}/lib 2>/dev/null
-    chmod 755 "${INSTALLDIR}/${PACKAGE}" 2>/dev/null
-    sudo ln -sf "${INSTALLDIR}/${PACKAGE}" "/usr/local/bin/${PACKAGE}"
+    chmod 755 "${INSTALLDIR}/runner" 2>/dev/null
+    sudo ln -sf "${INSTALLDIR}/runner" "/usr/local/bin/runner"
   fi
 }
 
@@ -82,10 +82,10 @@ main() {
 
 
   # handle success or failure
-  if [[ -f "${INSTALLDIR}/${PACKAGE}" ]]; then
+  if [[ -f "${INSTALLDIR}/runner" ]]; then
     echo 'done!'
   else
-    echo >&2 "Failed, ${INSTALLDIR}/${PACKAGE} was not found"
+    echo >&2 "Failed, ${INSTALLDIR}/runner was not found"
     exit 1
   fi
 }

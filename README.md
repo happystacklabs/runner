@@ -1,15 +1,14 @@
 <img src=".github/happystack.png" alt="Happystack" width="150" height="150" />
 
+# Happystack Runner
 ![Version](https://img.shields.io/badge/Version-0.2.0-green.svg?style=flat)
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
-
-# Happystack Runner
 
 #### 🏃🏼 Runner is a task runner used at Happystack for automating various tasks and deployment.
 
 ## 🔧 Installation
 ```bash
-curl -fsSL https://raw.githubusercontent.com/happystacklabs/runner/master/install.sh | sh
+curl -fsSL https://raw.githubusercontent.com/happystacklabs/runner/master/install.sh | sudo sh
 ```
 
 ## 🕹 Usage
@@ -22,7 +21,7 @@ curl -fsSL https://raw.githubusercontent.com/happystacklabs/runner/master/instal
  ╰────┴─────────╯
 ╭─────────────────────────────────────────────────╮
 │                                                 │
-│  usage:  bashrunner COMMANDS [OPTIONS] [help]   │
+│  usage:  runner COMMANDS [OPTIONS] [help]       │
 │                                                 │
 │    COMMANDS:                                    │
 │       tasks file        (ex: ./tasks.sh)        │
