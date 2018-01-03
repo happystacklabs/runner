@@ -80,6 +80,7 @@ To add a new task, add the task title and the command.
 ################################################################################
 # Task N
 ################################################################################
+
 tasks[n]='Task title'
 tasksCommand[n]='the bash command'
 
