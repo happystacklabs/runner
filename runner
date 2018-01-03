@@ -23,6 +23,7 @@ set -o pipefail # Catch the error in case mysqldump fails (but gzip succeeds) in
 # Global constants.
 ##
 readonly MPATH='/usr/local/runner'
+readonly CURRENTPATH=$( pwd )
 readonly EMPTY=' '
 readonly S=' '
 readonly GREEN='\e[32m'
@@ -322,7 +323,6 @@ launch() {
 
   # import tasks
   # shellcheck source=./tasks.sh
-  readonly CURRENTPATH=$( pwd )
   source "${CURRENTPATH}/${taskPath}"
 
   # init the screen
