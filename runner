@@ -340,9 +340,9 @@ launch() {
 ##
 help() {
   local columns=('0')
-  local line1='${EMPTY}${EMPTY}usage:  runner COMMANDS [OPTIONS] [help]~'
-  local line2="${EMPTY}${EMPTY}${EMPTY}${EMPTY}COMMANDS:"
-  local line3='${EMPTY}${EMPTY}${EMPTY}${EMPTY}${EMPTY}${EMPTY}init              generate tasks file'
+  local line1="${EMPTY}${EMPTY}usage:  runner COMMANDS [OPTIONS] [help]~"
+  local line2="${EMPTY}${EMPTY}${EMPTY}${EMPTY}COMMANDS:~"
+  local line3="${EMPTY}${EMPTY}${EMPTY}${EMPTY}${EMPTY}${EMPTY}init              generate tasks file~"
 
   # print header
   printf clear
