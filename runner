@@ -320,6 +320,9 @@ launch() {
   # stop loader
   kill $loaderPID 2>/dev/null
 
+  # set display
+  display="${EMPTY}"
+
   # import tasks
   # shellcheck source=./tasks.sh
   source "${CURRENTPATH}/${taskPath}"
