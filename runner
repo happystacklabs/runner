@@ -64,7 +64,14 @@ readonly start=`date +%s`
 # Global variables
 ##
 currentVersion=0.0.0
-currentStep=0
+
+
+##
+# Header' content default
+##
+if [ -z "$headerContent" ]; then
+  headerContent="${EMPTY}"
+fi
 
 
 ##
@@ -151,7 +158,7 @@ statusFooter() {
 
   case $2 in
     --success)
-      message="🎉${EMPTY}${EMPTY}Deployed to version $currentVersion in ${time} seconds!"
+      message="🎉${EMPTY}${EMPTY}Deployed in ${time} seconds!"
       sound='success.wav'
       ;;
     --failure)
@@ -198,7 +205,7 @@ printTable() {
   printf "$( templateHeader 'HAPPYSTACK 🏃🏼' 'Deploy script' )"
 
   # table header
-  headerContent+="${EMPTY}${EMPTY}Current version ${currentVersion}~"
+  headerContent+="${EMPTY}${EMPTY}${headerContent}~"
   headerContentLength="$(( ${#headerContent} + padding - 1 ))"
 
   # add progress bar to headerContent
@@ -495,15 +502,9 @@ main() {
       ;;
   esac
 
-  # failsafe
-  if [[ ${#2} = 0 ]]; then
-    exit 1
-  fi
-
 
   # Variables
   local taskPath=$1
-  currentVersion=$2
 
   # init the screen
   launch
