@@ -35,6 +35,8 @@ curl -fsSL https://raw.githubusercontent.com/happystacklabs/runner/master/instal
 │                                                             │
 │       <update>                      to latest version       │
 │                                                             │
+│       <uninstall>                   remove runner           │
+│                                                             │
 ╰─────────────────────────────────────────────────────────────╯
 
 ```

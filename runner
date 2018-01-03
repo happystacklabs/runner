@@ -392,7 +392,34 @@ update() {
     afplay "${MPATH}/sounds/failure.wav" || paplay "${MPATH}/sounds/failure.wav" || echo -ne '\007' &
     exit 1
   fi
+}
 
+
+##
+# uninstall
+#
+# @desc: remove Runner from system
+#
+# @usage: uninstall
+#
+##
+uninstall() {
+
+  read -r -p "Do you want to uninstall 🏃 Runner? [y/n]: " response
+  case $response in
+      [yY][eE][sS]|[yY])
+        # remove runner folder  and symlink
+        sudo rm -rf ${MPATH} 2>/dev/null
+        sudo rm -f "/usr/local/bin/runner" 2>/dev/null
+        # print success
+        printf "\n🏃🏾${EMPTY} Runner uninstalled, good bye!\n\n"
+        exit 0
+        ;;
+      *)
+        printf "\nUninstall cancelled!\n\n"
+        exit 0
+        ;;
+    esac
 }
 
 
@@ -411,6 +438,7 @@ help() {
   local line3="${S}${S}${S}${S}${S}${S}${PURPLE}<init>${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S} generate tasks file~"
   local line4="${S}${S}${S}${S}${S}${S}${PURPLE}<tasks file> <version>${DEFAULTCOLOR} ${S}${S}${S} ex: ./tasks.sh 2.0.0~"
   local line5="${S}${S}${S}${S}${S}${S}${PURPLE}<update>${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S} update to latest~"
+  local line6="${S}${S}${S}${S}${S}${S}${PURPLE}<uninstall>${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S} remove 🏃~"
 
   # print header
   clear
@@ -429,6 +457,8 @@ help() {
   printf "$( bash $row middle  --content="${line4}" --align='left' )"
   printf "$( bash $row middle )"
   printf "$( bash $row middle  --content="${line5}" --align='left' )"
+  printf "$( bash $row middle )"
+  printf "$( bash $row middle  --content="${line6}" --align='left' )"
   printf "$( bash $row middle )"
   printf "$( bash $row bottom )"
 
@@ -453,11 +483,17 @@ main() {
   fi
 
   # catch init command
-  if [[ $1 = 'init' ]]; then
-    init
-  elif [[ $1 = 'update' ]]; then
-    update
-  fi
+  case $1 in
+    init)
+      init
+      ;;
+    update)
+      update
+      ;;
+    uninstall)
+      uninstall
+      ;;
+  esac
 
   # failsafe
   if [[ ${#2} = 0 ]]; then
