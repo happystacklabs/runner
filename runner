@@ -436,7 +436,7 @@ help() {
   local line1="${S}${S}usage: ${S}runner COMMANDS [OPTIONS] [help]~"
   local line2="${S}${S}${S}${S}COMMANDS:~"
   local line3="${S}${S}${S}${S}${S}${S}${PURPLE}<init>${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S} generate tasks file~"
-  local line4="${S}${S}${S}${S}${S}${S}${PURPLE}<tasks file> <version>${DEFAULTCOLOR} ${S}${S}${S} ex: ./tasks.sh 2.0.0~"
+  local line4="${S}${S}${S}${S}${S}${S}${PURPLE}<tasks file> <version>${DEFAULTCOLOR} ${S}${S}${S} ex: ./tasks.sh 0.0.0~"
   local line5="${S}${S}${S}${S}${S}${S}${PURPLE}<update>${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S} update to latest~"
   local line6="${S}${S}${S}${S}${S}${S}${PURPLE}<uninstall>${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S} remove 🏃~"
 

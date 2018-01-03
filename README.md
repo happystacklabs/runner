@@ -36,7 +36,7 @@ runner uninstall
 │                                                             │
 │       <init>                        generate tasks file     │
 │                                                             │
-│       <tasks file> <version>        ex: ./tasks.sh          │
+│       <tasks file> <version>        ex: ./tasks.sh 0.0.0    │
 │                                                             │
 │       <update>                      to latest version       │
 │                                                             │
