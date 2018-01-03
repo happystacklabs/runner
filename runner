@@ -194,7 +194,7 @@ printTable() {
 
   # print header
   printf '\033[;H' || clear
-  printf "$( templateHeader 'HAPPYSTACK BASHKIT' 'Deploy script' )"
+  printf "$( templateHeader 'HAPPYSTACK 🏃🏼' 'Deploy script' )"
 
   # table header
   headerContent+="${EMPTY}${EMPTY}Current version ${currentVersion}~"
@@ -311,14 +311,14 @@ runTasks() {
 #
 ##
 launch() {
-  # # start loader
-  # bash "${loader}" &
-  # loaderPID=$!
-  # disown
-  # # totally useless for now but damn cool
-  # sleep 1.5
-  # # stop loader
-  # kill $loaderPID 2>/dev/null
+  # start loader
+  bash "${loader}" &
+  loaderPID=$!
+  disown
+  # totally useless for now but damn cool
+  sleep 1.5
+  # stop loader
+  kill $loaderPID 2>/dev/null
 
   # import tasks
   # shellcheck source=./tasks.sh
@@ -329,6 +329,49 @@ launch() {
   hideCursor
   tput cup 0 0
   clear
+}
+
+
+##
+# init
+#
+# @desc: generate a basic runner tasks file
+#
+# @usage: init
+#
+##
+init() {
+  # duplicate sample task to current path
+  cpy "${MPATH}/runner/tasks[sample].sh" "${CURRENTPATH}/tasks[sample].sh"
+  # print success
+  printf "\n🎉${EMPTY} Sample task file generated!\n\n"
+}
+
+
+##
+# update
+#
+# @desc: update the script from git
+#
+# @usage: update
+#
+##
+update() {
+  # start loader
+  bash "${loader}" &
+  loaderPID=$!
+  disown
+
+  # update
+  sudo bash "${MPATH}/install.sh" > "$(pwd)/out.log" 2> "$(pwd)/err.log"
+
+  # stop loader
+  kill $loaderPID 2>/dev/null
+
+  # print success
+  clear
+  printf "\n🎉${EMPTY} Updated!\n\n"
+
 }
 
 
@@ -344,14 +387,13 @@ help() {
   local columns=('0')
   local line1="${S}${S}usage: ${S}runner COMMANDS [OPTIONS] [help]~"
   local line2="${S}${S}${S}${S}COMMANDS:~"
-  local line3="${S}${S}${S}${S}${S}${S}${PURPLE}init${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S} generate tasks file~"
-  local line4="${S}${S}${S}${S}${S}${S}---~"
-  local line5="${S}${S}${S}${S}${S}${S}${PURPLE}tasks file${DEFAULTCOLOR} ${S}${S}${S}${S}${S} (ex: ./tasks.sh)~"
-  local line6="${S}${S}${S}${S}${S}${S}${PURPLE}version${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S} (ex: 2.0.0)~"
+  local line3="${S}${S}${S}${S}${S}${S}${PURPLE}<init>${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S} generate tasks file~"
+  local line4="${S}${S}${S}${S}${S}${S}${PURPLE}<tasks file> <version>${DEFAULTCOLOR} ${S}${S}${S} ex: ./tasks.sh 2.0.0~"
+  local line5="${S}${S}${S}${S}${S}${S}${PURPLE}<update>${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S} update to latest~"
 
   # print header
   clear
-  printf "$( templateHeader 'HAPPYSTACK RUNNER' 'Help' )"
+  printf "$( templateHeader 'HAPPYSTACK 🏃🏼' 'Help' )"
   # print help menu
   printf "$( bash $row top )"
   printf "$( bash $row middle )"
@@ -362,9 +404,10 @@ help() {
   printf "$( bash $row middle  --content="${line2}" --align='left' )"
   printf "$( bash $row middle )"
   printf "$( bash $row middle  --content="${line3}" --align='left' )"
+  printf "$( bash $row middle )"
   printf "$( bash $row middle  --content="${line4}" --align='left' )"
+  printf "$( bash $row middle )"
   printf "$( bash $row middle  --content="${line5}" --align='left' )"
-  printf "$( bash $row middle  --content="${line6}" --align='left' )"
   printf "$( bash $row middle )"
   printf "$( bash $row bottom )"
 
@@ -383,15 +426,25 @@ help() {
 ##
 main() {
   # help
-  if [[ ${#0} || $1 = 'help' ]]; then
+  if [[ "${#@}" = 0 || $1 = 'help' ]]; then
     help
-    exit 1
+    exit 0
+  fi
+
+  # catch init command
+  if [[ $1 = 'init' ]]; then
+    init
+    exit 0
+  elif [[ $1 = 'update' ]]; then
+    update
+    exit 0
   fi
 
   # failsafe
   if [[ ${#2} = 0 ]]; then
     exit 1
   fi
+
 
   # Variables
   local taskPath=$1
