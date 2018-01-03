@@ -343,13 +343,12 @@ launch() {
 init() {
   # duplicate sample task to current path
   cp "${MPATH}/tasks[sample].sh" "${CURRENTPATH}/tasks[sample].sh"
-
   # print success
   printf "\n🎉${EMPTY} Sample task file generated!\n\n"
-
   # BIB!
   sleep 0.2
-  afplay "${MPATH}/sounds/success.wav" || paplay "${MPATH}/sounds/success.wav" || echo -ne '\007'
+  afplay "${MPATH}/sounds/success.wav" || paplay "${MPATH}/sounds/success.wav" || echo -ne '\007' &
+  exit 0
 }
 
 
@@ -368,18 +367,31 @@ update() {
   disown
 
   # update
-  sudo bash "${MPATH}/install.sh" > "$(pwd)/out.log" 2> "$(pwd)/err.log"
-
-  # stop loader
-  kill $loaderPID 2>/dev/null
-
-  # print success
-  clear
-  printf "\n🎉${EMPTY} Updated!\n\n"
-
-  # BIB!
-  sleep 0.2
-  afplay '${MPATH}/sounds/success.wav' || paplay '${MPATH}/sounds/success.wav' || echo -ne '\007'
+  if bash "${MPATH}/install.sh" > "$(pwd)/out.log" 2> "$(pwd)/err.log"; then
+    # stop loader
+    kill $loaderPID 2>/dev/null
+    # print success
+    clear
+    printf "\n🎉${EMPTY} Updated!\n\n"
+    # unhideCursor
+    unhideCursor
+    # BIB!
+    sleep 0.2
+    afplay "${MPATH}/sounds/success.wav" || paplay "${MPATH}/sounds/success.wav" || echo -ne '\007' &
+    exit 0
+  else
+    # stop loader
+    kill $loaderPID 2>/dev/null
+    # print failure
+    clear
+    printf "\n❌${EMPTY} An error occured, try to update with privileges: sudo runner update\n\n"
+    # unhideCursor
+    unhideCursor
+    # BIB!
+    sleep 0.2
+    afplay "${MPATH}/sounds/failure.wav" || paplay "${MPATH}/sounds/failure.wav" || echo -ne '\007' &
+    exit 1
+  fi
 
 }
 
@@ -443,10 +455,8 @@ main() {
   # catch init command
   if [[ $1 = 'init' ]]; then
     init
-    exit 0
   elif [[ $1 = 'update' ]]; then
     update
-    exit 0
   fi
 
   # failsafe

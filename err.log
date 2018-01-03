@@ -1,0 +1,3 @@
+error: cannot open /usr/local/runner/.git/FETCH_HEAD: Permission denied
+
+Failed to fetch changes from https://github.com/happystacklabs/runner.git
