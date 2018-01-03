@@ -3,12 +3,24 @@
 # Copyright (c) Happystack
 
 
-# variables
 # shellcheck disable=SC2034
 tasks=()
 tasksCommand=()
 
 
+
+# Do not change content before here.
+#
+# How to use
+# ----------
+# To add a new task, add the task title and the command.
+#
+# tasks[n]='Task title'
+# tasksCommand[n]='the bash command'
+#
+# where 'n' is the index of the task
+#
+#
 ################################################################################
 # Task 1
 ################################################################################
