@@ -62,8 +62,8 @@ readonly start=`date +%s`
 
 ##
 # Global variables
-##
-currentVersion=0.0.0
+##æ
+currentStep=0
 
 
 ##
@@ -72,7 +72,6 @@ currentVersion=0.0.0
 if [ -z "$headerContent" ]; then
   headerContent="${EMPTY}"
 fi
-
 
 ##
 # printTask
@@ -479,7 +478,7 @@ help() {
 #
 # @desc: configure and run the task runner
 #
-# @usage: main <taskPath> <currentVersion>
+# @usage: main <taskPath>
 #
 ##
 main() {
