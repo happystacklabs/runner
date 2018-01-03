@@ -46,7 +46,7 @@ readonly HEIGHT="$(tput lines)"
 readonly row="${MPATH}/lib/table/row.sh"
 readonly loader="${MPATH}/lib/loader/loader.sh"
 readonly progressBar="${MPATH}/lib/progressBar/progressBar.sh"
-readonly input='${MPATH}/lib/input/input.sh'
+readonly input="${MPATH}/lib/input/input.sh"
 # shellcheck source=./lib/templates.sh
 source "${MPATH}/lib/templates.sh"
 # shellcheck source=./lib/helpers.sh
