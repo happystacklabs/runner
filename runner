@@ -64,14 +64,7 @@ readonly start=`date +%s`
 # Global variables
 ##æ
 currentStep=0
-
-
-##
-# Header' content default
-##
-if [ -z "$headerContent" ]; then
-  headerContent="${EMPTY}"
-fi
+headerContent="${EMPTY}"
 
 ##
 # printTask
