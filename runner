@@ -24,7 +24,9 @@ set -o pipefail # Catch the error in case mysqldump fails (but gzip succeeds) in
 ##
 readonly MPATH='/usr/local/runner'
 readonly EMPTY=' '
+readonly S=' '
 readonly GREEN='\e[32m'
+readonly DEFAULTCOLOR='\e[39m'
 readonly RED='\e[31m'
 readonly PURPLE='\e[38;5;105m'
 readonly DONESTATUS='Done'
@@ -340,22 +342,34 @@ launch() {
 ##
 help() {
   local columns=('0')
-  local line1="${EMPTY}${EMPTY}usage:  runner COMMANDS [OPTIONS] [help]~"
-  local line2="${EMPTY}${EMPTY}${EMPTY}${EMPTY}COMMANDS:~"
-  local line3="${EMPTY}${EMPTY}${EMPTY}${EMPTY}${EMPTY}${EMPTY}init              generate tasks file~"
+  local line1="${S}${S}usage: ${S}runner COMMANDS [OPTIONS] [help]~"
+  local line2="${S}${S}${S}${S}COMMANDS:~"
+  local line3="${S}${S}${S}${S}${S}${S}${PURPLE}init${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S}${S}${S}${S} generate tasks file~"
+  local line4="${S}${S}${S}${S}${S}${S}---~"
+  local line5="${S}${S}${S}${S}${S}${S}${PURPLE}tasks file${DEFAULTCOLOR} ${S}${S}${S}${S}${S} (ex: ./tasks.sh)~"
+  local line6="${S}${S}${S}${S}${S}${S}${PURPLE}version${DEFAULTCOLOR} ${S}${S}${S}${S}${S}${S}${S}${S} (ex: 2.0.0)~"
 
   # print header
-  printf clear
-  printf "$( templateHeader 'HAPPYSTACK Runner' 'Help' )"
+  clear
+  printf "$( templateHeader 'HAPPYSTACK RUNNER' 'Help' )"
   # print help menu
   printf "$( bash $row top )"
-  printf "$( bash $row middle --content="~" )"
+  printf "$( bash $row middle )"
   printf "$( bash $row middle  --content="${line1}" --align='left' )"
-  printf "$( bash $row middle --content="${line1}" )"
+  printf "$( bash $row middle )"
+  printf "$( bash $row separator )"
+  printf "$( bash $row middle )"
   printf "$( bash $row middle  --content="${line2}" --align='left' )"
+  printf "$( bash $row middle )"
   printf "$( bash $row middle  --content="${line3}" --align='left' )"
-  printf "$( bash $row middle --content="~" )"
+  printf "$( bash $row middle  --content="${line4}" --align='left' )"
+  printf "$( bash $row middle  --content="${line5}" --align='left' )"
+  printf "$( bash $row middle  --content="${line6}" --align='left' )"
+  printf "$( bash $row middle )"
   printf "$( bash $row bottom )"
+
+  # place cursor to bottom
+  tput cup "${HEIGHT}" 0
 }
 
 

@@ -15,10 +15,6 @@
 # @usage: templateHeader [ subtitle: {string} ]
 ##
 templateHeader() {
-  # colors
-  readonly DEFAULTCOLOR='\e[39m'
-  # readonly PURPLE='\e[38;5;105m'
-
   # default value
   local title='HAPPYSTACK'
   local subtitle='A Bash script'
