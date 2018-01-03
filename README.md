@@ -12,6 +12,8 @@ curl -fsSL https://raw.githubusercontent.com/happystacklabs/runner/master/instal
 ```
 
 ## 🕹 Usage
+
+#### Commands & Options
 ```
 
    /\═════════\™
@@ -24,11 +26,20 @@ curl -fsSL https://raw.githubusercontent.com/happystacklabs/runner/master/instal
 │  usage:  runner COMMANDS [OPTIONS] [help]       │
 │                                                 │
 │    COMMANDS:                                    │
+│       init              generate tasks file     │
+│       ----                                      │
 │       tasks file        (ex: ./tasks.sh)        │
 │       version           (ex: 2.0.0)             │
 │                                                 │
 ╰─────────────────────────────────────────────────╯
 
+```
+#### Getting Started
+Runner needs a bash file with all the tasks to run. It comes with a sample file
+that we can generate with the init command.
+
+``` bash
+runner init
 ```
 
 ## 📄 Licenses

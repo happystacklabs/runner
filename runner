@@ -4,9 +4,7 @@
 
 
 # TODO 📢
-# ☑️ Pack for production
 # ☑️ Make documentation
-# ☑️ print the real path for err.log
 # ☑️ Add me!
 
 
@@ -51,7 +49,6 @@ source "${MPATH}/lib/templates.sh"
 source "${MPATH}/lib/helpers.sh"
 # shellcheck source=./lib/icons.sh
 source "${MPATH}/lib/icons.sh"
-
 
 
 ##
@@ -134,7 +131,6 @@ printTask() {
 
   printf "$( bash $row middle --content="${content}" --align='left' )"
 }
-
 
 
 ##
@@ -305,14 +301,14 @@ runTasks() {
 
 
 ##
-# init
+# launch
 #
-# @desc: init the screen
+# @desc: launch the screen
 #
-# @usage: init
+# @usage: launch
 #
 ##
-init() {
+launch() {
   # # start loader
   # bash "${loader}" &
   # loaderPID=$!
@@ -334,6 +330,24 @@ init() {
 }
 
 
+##
+# help
+#
+# @desc: print the help menu
+#
+# @usage: help
+#
+##
+help() {
+  line1='usage:  runner COMMANDS [OPTIONS] [help]~'
+
+  printf "$( bash $row top --columns="$(0)" )"
+  printf "$( bash $row middle --columns="$(0)" --content="${line1}" --align='left' )"
+  printf "$( bash $row separator --columns="${headerColumns[*]}" --up )"
+  printf "$( bash $row middle )"
+  printf "$( bash $row bottom )"
+}
+
 
 ##
 # main
@@ -344,6 +358,12 @@ init() {
 #
 ##
 main() {
+  # help
+  if [[ ${#0} || $1 = 'help' ]]; then
+    help
+    exit 1
+  fi
+
   # failsafe
   if [[ ${#2} = 0 ]]; then
     exit 1
@@ -354,7 +374,7 @@ main() {
   currentVersion=$2
 
   # init the screen
-  init
+  launch
 
   # run tasks
   runTasks
@@ -371,6 +391,7 @@ main() {
   # exit program
   exit 0
 }
+
 
 # Call `main` after everything has been defined.
 main "$@"
