@@ -11,7 +11,10 @@
 curl -fsSL https://raw.githubusercontent.com/happystacklabs/runner/master/install.sh | sudo sh
 ```
 
-You can also uninstall `runner uninstall`
+You can also uninstall like this:
+```bash
+runner uninstall
+```
 
 ## 🕹 Usage
 
@@ -74,13 +77,19 @@ tasksCommand[1]='sleep 5.0'
 To add a new task, add the task title and the command.
 
 ``` bash
+################################################################################
+# Task N
+################################################################################
 tasks[n]='Task title'
 tasksCommand[n]='the bash command'
 
 # where 'n' is the index of the task
 ```
 
-Now run `runner tasks[sample].sh 0.0.0` and it will complete all the tasks in your file!
+Now run this and it will complete all the tasks in your file!
+``` bash
+runner tasks[sample].sh 0.0.0
+```
 
 
 ## 📄 Licenses
