@@ -46,12 +46,14 @@ readonly HEIGHT="$(tput lines)"
 readonly row="${MPATH}/lib/table/row.sh"
 readonly loader="${MPATH}/lib/loader/loader.sh"
 readonly progressBar="${MPATH}/lib/progressBar/progressBar.sh"
+readonly input='${MPATH}/lib/input/input.sh'
 # shellcheck source=./lib/templates.sh
 source "${MPATH}/lib/templates.sh"
 # shellcheck source=./lib/helpers.sh
 source "${MPATH}/lib/helpers.sh"
 # shellcheck source=./lib/icons.sh
 source "${MPATH}/lib/icons.sh"
+
 
 
 ##
@@ -254,7 +256,7 @@ startAnimation() {
   # animate the clock icon
   while sleep 0.2; do
     tput ech 1
-    tput cub1
+    tput cub 1
     printf "${TIMESEQUENCE:i++%${#TIMESEQUENCE}:1}"
   done
 }
@@ -274,10 +276,24 @@ runTasks() {
     # print the table
     printTable
 
+    # input
+    if [[ ${currentStep} = 1 ]]; then
+      # place cursor to bottom
+      tput cup $(( HEIGHT - 4 )) 0
+      unhideCursor
+      inputResult=''
+      bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult
+      hideCursor
+      printf "${inputResult}"
+      sleep 3.0
+    fi
+
     # start animation
     startAnimation &
     animationPID=$!
     disown
+
+
 
     # run the current task and handle failure
     if eval "${tasksCommand[${currentStep}]}" > "$(pwd)/out.log" 2> "$(pwd)/err.log"; then

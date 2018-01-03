@@ -4,8 +4,6 @@
 
 
 # TODO 📢
-# ☑️  Start animation.
-# ☑️  Stop animation.
 # ☑️
 
 
@@ -50,7 +48,6 @@ readonly TIME=0.16
 # imports
 # shellcheck source=./frames.sh
 source "${MPATH}/frames.sh"
-echo "${MPATH}/frames.sh"
 
 # Loader matrix
 # ╭──┬────┬──┬────┬──┬────┬──╮
