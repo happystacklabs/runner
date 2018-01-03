@@ -339,11 +339,18 @@ launch() {
 #
 ##
 help() {
-  line1='usage:  runner COMMANDS [OPTIONS] [help]~'
+  local columns=('0')
+  local line1='usage:  runner COMMANDS [OPTIONS] [help]~'
+  local line2='${SPACE}${SPACE}COMMANDS:'
 
-  printf "$( bash $row top --columns="$(0)" )"
-  printf "$( bash $row middle --columns="$(0)" --content="${line1}" --align='left' )"
-  printf "$( bash $row separator --columns="${headerColumns[*]}" --up )"
+  # print header
+  printf '\033[;H' || clear
+  printf "$( templateHeader 'HAPPYSTACK Runner' 'Help' )"
+  # print help menu
+  printf "$( bash $row top )"
+  printf "$( bash $row middle  --content="${line1}" --align='left' )"
+  printf "$( bash $row middle )"
+  printf "$( bash $row middle  --content="${line2}" --align='left' )"
   printf "$( bash $row middle )"
   printf "$( bash $row bottom )"
 }
