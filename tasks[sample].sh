@@ -22,11 +22,13 @@ tasksCommand=()
 #
 #
 ################################################################################
-# Your custom content for the display position in the table header (EX: version)
+# Your custom content for the display, title and subtitle
 ################################################################################
 display=0.0.0
 # Example:
 # display="Current Version: $(grep -m1 version package.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')"
+title='HAPPYSTACK 🏃🏼'
+subtitle='Tasks Runner'
 
 ################################################################################
 # Task 1

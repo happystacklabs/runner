@@ -194,7 +194,7 @@ printTable() {
 
   # print header
   printf '\033[;H' || clear
-  printf "$( templateHeader 'HAPPYSTACK 🏃🏼' 'Deploy script' )"
+  printf "$( templateHeader "$title" $"subtitle" )"
 
   # table header
   headerContent+="${EMPTY}${EMPTY}${display}~"
@@ -320,8 +320,10 @@ launch() {
   # stop loader
   kill $loaderPID 2>/dev/null
 
-  # set display
+  # set display, title and subtitle
   display="${EMPTY}"
+  title='HAPPYSTACK 🏃🏼'
+  subtitle='Tasks Runner'
 
   # import tasks
   # shellcheck source=./tasks.sh
@@ -406,7 +408,7 @@ update() {
 #
 ##
 uninstall() {
-
+  # read confirmation from user
   read -r -p "Do you want to uninstall 🏃 Runner? [y/n]: " response
   case $response in
       [yY][eE][sS]|[yY])
