@@ -36,7 +36,7 @@ runner uninstall
 │                                                             │
 │       <init>                        generate tasks file     │
 │                                                             │
-│       <tasks file> <version>        ex: ./tasks.sh 0.0.0    │
+│       <tasks file>                  ex: ./tasks.sh          │
 │                                                             │
 │       <update>                      to latest version       │
 │                                                             │
@@ -57,6 +57,13 @@ runner init
 
 The tasks file looks like this:
 ``` bash
+
+################################################################################
+# Your custom content for the display position in the table header (EX: version)
+################################################################################
+display=0.0.0
+# Example:
+# display="Current Version: $(grep -m1 version package.json | awk -F: '{ print $2 }' | sed 's/[", ]//g')"
 
 ################################################################################
 # Task 1
@@ -89,7 +96,7 @@ tasksCommand[n]='the bash command'
 
 Now run this and it will complete all the tasks in your file!
 ``` bash
-runner tasks[sample].sh 0.0.0
+runner tasks[sample].sh
 ```
 
 
