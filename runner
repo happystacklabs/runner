@@ -349,11 +349,12 @@ help() {
   printf "$( templateHeader 'HAPPYSTACK Runner' 'Help' )"
   # print help menu
   printf "$( bash $row top )"
+  printf "$( bash $row middle --content="~" )"
   printf "$( bash $row middle  --content="${line1}" --align='left' )"
-  printf "$( bash $row middle )"
+  printf "$( bash $row middle --content="${line1}" )"
   printf "$( bash $row middle  --content="${line2}" --align='left' )"
   printf "$( bash $row middle  --content="${line3}" --align='left' )"
-  printf "$( bash $row middle )"
+  printf "$( bash $row middle --content="~" )"
   printf "$( bash $row bottom )"
 }
 
