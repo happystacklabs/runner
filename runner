@@ -340,8 +340,9 @@ launch() {
 ##
 help() {
   local columns=('0')
-  local line1='${SPACE}${SPACE}usage:  runner COMMANDS [OPTIONS] [help]~'
-  local line2="${SPACE}${SPACE}${SPACE}${SPACE}COMMANDS:"
+  local line1='${EMPTY}${EMPTY}usage:  runner COMMANDS [OPTIONS] [help]~'
+  local line2="${EMPTY}${EMPTY}${EMPTY}${EMPTY}COMMANDS:"
+  local line3='${EMPTY}${EMPTY}${EMPTY}${EMPTY}${EMPTY}${EMPTY}init              generate tasks file'
 
   # print header
   printf clear
@@ -351,6 +352,7 @@ help() {
   printf "$( bash $row middle  --content="${line1}" --align='left' )"
   printf "$( bash $row middle )"
   printf "$( bash $row middle  --content="${line2}" --align='left' )"
+  printf "$( bash $row middle  --content="${line3}" --align='left' )"
   printf "$( bash $row middle )"
   printf "$( bash $row bottom )"
 }
