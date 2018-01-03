@@ -343,8 +343,13 @@ launch() {
 init() {
   # duplicate sample task to current path
   cp "${MPATH}/tasks[sample].sh" "${CURRENTPATH}/tasks[sample].sh"
+
   # print success
   printf "\n🎉${EMPTY} Sample task file generated!\n\n"
+
+  # BIB!
+  sleep 0.2
+  afplay "${MPATH}/sounds/success.wav" || paplay "${MPATH}/sounds/success.wav" || echo -ne '\007'
 }
 
 
@@ -371,6 +376,10 @@ update() {
   # print success
   clear
   printf "\n🎉${EMPTY} Updated!\n\n"
+
+  # BIB!
+  sleep 0.2
+  afplay '${MPATH}/sounds/success.wav' || paplay '${MPATH}/sounds/success.wav' || echo -ne '\007'
 
 }
 
