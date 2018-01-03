@@ -342,7 +342,7 @@ launch() {
 ##
 init() {
   # duplicate sample task to current path
-  cpy "${MPATH}/runner/tasks[sample].sh" "${CURRENTPATH}/tasks[sample].sh"
+  cp "${MPATH}/runner/tasks[sample].sh" "${CURRENTPATH}/tasks[sample].sh"
   # print success
   printf "\n🎉${EMPTY} Sample task file generated!\n\n"
 }
