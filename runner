@@ -340,11 +340,11 @@ launch() {
 ##
 help() {
   local columns=('0')
-  local line1='usage:  runner COMMANDS [OPTIONS] [help]~'
-  local line2='${SPACE}${SPACE}COMMANDS:'
+  local line1='${SPACE}${SPACE}usage:  runner COMMANDS [OPTIONS] [help]~'
+  local line2="${SPACE}${SPACE}${SPACE}${SPACE}COMMANDS:"
 
   # print header
-  printf '\033[;H' || clear
+  printf clear
   printf "$( templateHeader 'HAPPYSTACK Runner' 'Help' )"
   # print help menu
   printf "$( bash $row top )"
