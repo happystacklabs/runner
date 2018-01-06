@@ -34,7 +34,7 @@ subtitle='Tasks Runner'
 ################################################################################
 task1() {
   # get the user input
-  getInput
+  getInput "Please enter your name" "Type here:"
   # the user response is in the 'inputResponse' variable
   # do something with $inputResponse
   # ...

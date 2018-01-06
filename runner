@@ -266,11 +266,13 @@ startAnimation() {
 
 
 getInput() {
+  local label=$1
+  local action=$2
   kill $animationPID 2>/dev/null
   animationPID='closed'
   tput cup $(( HEIGHT - 4 )) 0
   local inputResult=''
-  bash "${input}" " ⚠️  Current version is 0.3.1" "Bumb to version" "inputResponse.tmp" 2>&1
+  bash "${input}" "${label}" "${action}" "inputResponse.tmp" 2>&1
   inputResponse=$(cat "inputResponse.tmp")
   rm 'inputResponse.tmp'
 } >$(tty)
