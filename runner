@@ -22,8 +22,8 @@ set -o pipefail # Catch the error in case mysqldump fails (but gzip succeeds) in
 ##
 # Global constants.
 ##
-# readonly MPATH='/usr/local/runner'
-readonly MPATH='/Users/heinrich/Dropbox/Projects/happystack/runner'
+readonly MPATH='/usr/local/runner'
+# readonly MPATH='/Users/heinrich/Dropbox/Projects/happystack/runner'
 readonly CURRENTPATH=$( pwd )
 readonly EMPTY=' '
 readonly S=' '
@@ -68,6 +68,7 @@ readonly start=`date +%s`
 ##æ
 currentStep=0
 animationPID=''
+inputResponse=''
 
 
 ##
@@ -268,9 +269,10 @@ getInput() {
   kill $animationPID 2>/dev/null
   animationPID='closed'
   tput cup $(( HEIGHT - 4 )) 0
-  inputResult=''
-  bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult 2>&1
-  echo "${inputResult}"
+  local inputResult=''
+  bash "${input}" " ⚠️  Current version is 0.3.1" "Bumb to version" "inputResponse.tmp" 2>&1
+  inputResponse=$(cat "inputResponse.tmp")
+  rm 'inputResponse.tmp'
 } >$(tty)
 
 ##

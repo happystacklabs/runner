@@ -30,8 +30,10 @@ launchInput() {
   local padding=2
   local label=' ⚠️  Current version is 0.3.1'
   local actionMessage='Bumb to version'
-  local  __result=$3
+  local  response=$3
+  local result
   readonly EMPTY=' '
+  local file=''
   # local inputWidth=$(( width - ${#label} - ( padding * 2 ) - 3 ))
   # local separatorPosition=$(( ${#label} + ( padding * 2 ) ))
 
@@ -39,6 +41,7 @@ launchInput() {
   if [[ "$#" -gt 1 ]]; then
     label=$1
     actionMessage=$2
+    file=$3
   fi
 
   # calculate the number of rows
@@ -78,7 +81,8 @@ launchInput() {
   hideCursor
 
   # output result
-  eval $__result="'$result'"
+  echo $result > $file
+  # echo $result
 }
 
 

@@ -33,9 +33,11 @@ subtitle='Tasks Runner'
 # Task 1
 ################################################################################
 task1() {
-  
+  # get the user input
   getInput
-  # do something with res
+  # the user response is in the 'inputResponse' variable
+  # do something with $inputResponse
+  # ...
 }
 
 tasks[0]='Task one'
