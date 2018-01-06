@@ -8,7 +8,6 @@ tasks=()
 tasksCommand=()
 
 
-
 # Do not change content before here.
 #
 # How to use
@@ -33,19 +32,27 @@ subtitle='Tasks Runner'
 ################################################################################
 # Task 1
 ################################################################################
-# task1() {
-#   bash "${input}" "label" "action"
-# }
+task1() {
+  # kill $animationPID 2>/dev/null
+  tput cup $(( HEIGHT - 4 )) 0
+  inputResult=''
+  bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult 2>&1
+} >$(tty)
 
-tasks[1]='Task one'
-# tasksCommand+=(task1)
-tasksCommand[1]='sleep 3.0'
+tasks[0]='Task one'
+tasksCommand[0]="task1"
+# tasksCommand[0]='sleep 1.0'
 
 ###############################################################################
 # Task 2
 ###############################################################################
-tasks[0]='Task two'
-tasksCommand[0]='sleep 1.0'
+task2() {
+  echo 'ffff'
+  sleep 5.0
+}
+
+tasks[1]='Task two'
+tasksCommand[1]="task2"
 
 
 ################################################################################

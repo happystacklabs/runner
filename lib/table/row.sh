@@ -78,7 +78,6 @@ escapeString() {
   # strip the string out of ascii color code
   local escapedString
   escapedString=$(echo -e ${string} | sed "s/[\\]e\[[0-9;]*m//g")
-  # escapedString=$(echo -e ${string} | sed "s/[\\]\d\d\d\[\d(m?)//g")
 
 
   # export escapeString

@@ -22,7 +22,8 @@ set -o pipefail # Catch the error in case mysqldump fails (but gzip succeeds) in
 ##
 # Global constants.
 ##
-readonly MPATH='/usr/local/runner'
+# readonly MPATH='/usr/local/runner'
+readonly MPATH='/Users/heinrich/Dropbox/Projects/happystack/runner'
 readonly CURRENTPATH=$( pwd )
 readonly EMPTY=' '
 readonly S=' '
@@ -66,6 +67,7 @@ readonly start=`date +%s`
 # Global variables
 ##æ
 currentStep=0
+animationPID=''
 
 
 ##
@@ -262,6 +264,38 @@ startAnimation() {
 }
 
 
+getInput() {
+
+#   function x() {
+#   echo "Hello world"
+# }
+#
+# function around() {
+#   echo "before"
+#   var=$($1)
+#   echo "after $var"
+# }
+#
+# around x
+
+  # kill $animationPID 2>/dev/null
+  #
+  # # place cursor to bottom
+  # tput cup $(( HEIGHT - 4 )) 0
+  # inputResult=''
+  # bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult
+  # echo -e "${inputResult}"
+
+
+  # input
+  # place cursor to bottom
+  kill $animationPID 2>/dev/null
+  tput cup $(( HEIGHT - 4 )) 0
+  inputResult=''
+  bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult
+  echo "${inputResult}"
+}
+
 ##
 # runTasks
 #
@@ -276,34 +310,33 @@ runTasks() {
     # print the table
     printTable
 
-    # input
-    if [[ ${currentStep} = 1 ]]; then
-      # place cursor to bottom
-      tput cup $(( HEIGHT - 4 )) 0
-      unhideCursor
-      inputResult=''
-      bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult
-      hideCursor
-      printf "${inputResult}"
-      sleep 3.0
-    fi
-
-    # start animation
-    startAnimation &
-    animationPID=$!
-    disown
+    # # input
+    # if [[ ${currentStep} = 1 ]]; then
+    #   # place cursor to bottom
+    #   tput cup $(( HEIGHT - 4 )) 0
+    #   inputResult=''
+    #   bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult
+    # fi
 
 
 
+    # # start animation
+    # startAnimation &
+    # animationPID=$!
+    # disown
+
+    local t="${tasksCommand[$currentStep]}"
+    # $t
+    # sleep 2.0
     # run the current task and handle failure
-    if eval "${tasksCommand[${currentStep}]}" > "$(pwd)/out.log" 2> "$(pwd)/err.log"; then
-      # stop animation
-      kill $animationPID 2>/dev/null
+    if $t > "$(pwd)/out.log" 2> "$(pwd)/err.log"; then
+      # # stop animation
+      # kill $animationPID 2>/dev/null
       # increment the current step
       currentStep=$(( $currentStep + 1 ))
     else
       # stop animation
-      kill $animationPID 2>/dev/null
+      # kill $animationPID 2>/dev/null
 
       # print error table
       printTable --error
@@ -327,14 +360,14 @@ runTasks() {
 #
 ##
 launch() {
-  # start loader
-  bash "${loader}" &
-  loaderPID=$!
-  disown
-  # totally useless for now but damn cool
-  sleep 1.5
-  # stop loader
-  kill $loaderPID 2>/dev/null
+  # # start loader
+  # bash "${loader}" &
+  # loaderPID=$!
+  # disown
+  # # totally useless for now but damn cool
+  # sleep 1.5
+  # # stop loader
+  # kill $loaderPID 2>/dev/null
 
   # set display, title and subtitle
   display="${EMPTY}"

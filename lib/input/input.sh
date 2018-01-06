@@ -57,14 +57,25 @@ launchInput() {
   printf "$( bash $input_row bottom --columns="${inputRowColumns[*]}" )"
 
   # replace cursor to input position
-  tput cup $(( HEIGHT - 2 )) "$(( inputRowColumns[0] + 3 ))"
+  tput cup $(( HEIGHT - 2 )) "$(( inputRowColumns[0] + 2 ))"
 
   # catch the input
+  local inputWidth=$(( WIDTH - inputRowColumns - 3 ))
   printf '\e[48;5;235m\e[38;5;105m'
-  read result
-  printf '\e[39\e[0m'
+  for (( i = 0; i < "${inputWidth}"; i++ )); do
+    printf "${EMPTY}"
+  done
 
+  # replace cursor to input position
+  tput cup $(( HEIGHT - 2 )) "$(( inputRowColumns[0] + 3 ))"
+  unhideCursor
+
+  # read the user input
+  read result
+
+  printf '\e[39\e[0m'
   removeLines 4
+  hideCursor
 
   # output result
   eval $__result="'$result'"
