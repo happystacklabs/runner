@@ -173,7 +173,7 @@ statusFooter() {
 
   # BIB!
   sleep 0.2
-  afplay "${MPATH}/sounds/${sound}" || paplay "${MPATH}/sounds/${sound}" || echo -ne '\007'
+  afplay "${MPATH}/sounds/${sound}" || paplay "${MPATH}/sounds/${sound}" || echo -ne '\007' &
 
   # place cursor to bottom
   tput cup "${HEIGHT}" 0
@@ -265,36 +265,13 @@ startAnimation() {
 
 
 getInput() {
-
-#   function x() {
-#   echo "Hello world"
-# }
-#
-# function around() {
-#   echo "before"
-#   var=$($1)
-#   echo "after $var"
-# }
-#
-# around x
-
-  # kill $animationPID 2>/dev/null
-  #
-  # # place cursor to bottom
-  # tput cup $(( HEIGHT - 4 )) 0
-  # inputResult=''
-  # bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult
-  # echo -e "${inputResult}"
-
-
-  # input
-  # place cursor to bottom
   kill $animationPID 2>/dev/null
+  animationPID='closed'
   tput cup $(( HEIGHT - 4 )) 0
   inputResult=''
-  bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult
+  bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult 2>&1
   echo "${inputResult}"
-}
+} >$(tty)
 
 ##
 # runTasks
@@ -310,33 +287,24 @@ runTasks() {
     # print the table
     printTable
 
-    # # input
-    # if [[ ${currentStep} = 1 ]]; then
-    #   # place cursor to bottom
-    #   tput cup $(( HEIGHT - 4 )) 0
-    #   inputResult=''
-    #   bash ${input} " ⚠️  Current version is 0.3.1" "Bumb to version" inputResult
-    # fi
-
-
-
-    # # start animation
-    # startAnimation &
-    # animationPID=$!
-    # disown
+    # start animation
+    startAnimation &
+    animationPID=$!
+    disown
 
     local t="${tasksCommand[$currentStep]}"
-    # $t
-    # sleep 2.0
+
     # run the current task and handle failure
     if $t > "$(pwd)/out.log" 2> "$(pwd)/err.log"; then
       # # stop animation
-      # kill $animationPID 2>/dev/null
+      if [[ "${animationPID}" != 'closed' ]]; then
+        kill $animationPID 2>/dev/null
+      fi
       # increment the current step
       currentStep=$(( $currentStep + 1 ))
     else
       # stop animation
-      # kill $animationPID 2>/dev/null
+      kill $animationPID 2>/dev/null
 
       # print error table
       printTable --error
